@@ -16,7 +16,7 @@ app.register_blueprint(app_views)
 def remove_current_session(exception):
     """Removes current SQLAlchemy session"""
     if exception:
-        print(f'An error occured: {exception}')
+        print(exception)
     storage.close()
 
 
