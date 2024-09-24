@@ -113,3 +113,33 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    def test_get(self):
+        """Tests the get method of FileStorage class"""
+        # Set the environment variable to file storage
+        os.environ['HBNB_TYPE_STORAGE'] = 'fs'
+        from models import storage
+        # Create an amenity object
+        amenity1 = Amenity(name="wi-fi")
+        # save the amenity object into file storage
+        amenity1.save()
+        # Now try to retrieve the exact object from the file using get()
+        amenity1_from_fs = storage.get(Amenity, amenity1.id)
+        self.assertEqual(amenity1_from_fs.id, amenity1.id)
+        self.assertEqual(amenity1_from_fs.name, "wi-fi")
+
+    def test_count(self):
+        """Tests the count method of FileStorage class"""
+        # Set the environment variable to file storage
+        os.environ['HBNB_TYPE_STORAGE'] = 'fs'
+        from models import storage
+        # count initial number of objects of all class objects
+        no_all_clss = storage.count()
+        # count initial number of Amenity objects
+        no_amenity = storage.count(Amenity)
+        # Create a new Amenity object, and save it into file storage
+        amenity1 = Amenity(name="jacuzzi")
+        amenity1.save()
+        # check whether the number of objects has increased.
+        self.assertEqual(no_all_clss + 1, storage.count())
+        self.assertEqual(no_amenity + 1, storage.count(Amenity))

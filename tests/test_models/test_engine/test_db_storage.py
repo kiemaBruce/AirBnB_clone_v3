@@ -86,3 +86,39 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+
+class TestDBStorage(unittest.TestCase):
+    """Tests methods in the DBStorage class"""
+
+    @classmethod
+    def setupClass(cls):
+        """Common code for entire class"""
+        # Set the environment variable to ensure we're using db storage
+        os.environ['HBNB_TYPE_STORAGE'] = 'db'
+
+    def test_get(self):
+        """Tests the get method of DBStorage class"""
+        from models import storage
+        # Create an amenity object
+        amenity1 = Amenity(name="wi-fi")
+        # save the amenity object into the db
+        amenity1.save()
+        # Now try to retrieve the exact object from the db using get()
+        amenity1_from_DB = storage.get(Amenity, amenity1.id)
+        self.assertEqual(amenity1_from_DB.id, amenity1.id)
+        self.assertEqual(amenity1_from_DB.name, "wi-fi")
+
+    def test_count(self):
+        """Tests the count method of DBStorage class"""
+        from models import storage
+        # count initial number of objects of all class objects
+        no_all_clss = storage.count()
+        # count initial number of Amenity objects
+        no_amenity = storage.count(Amenity)
+        # Create a new Amenity object, and save it into db
+        amenity1 = Amenity(name="jacuzzi")
+        amenity1.save()
+        # check whether the number of objects has increased.
+        self.assertEqual(no_all_clss + 1, storage.count())
+        self.assertEqual(no_amenity + 1, storage.count(Amenity))
