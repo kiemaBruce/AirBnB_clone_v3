@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Flask app for returning API status
 """
+
 from api.v1.views import app_views
 from flask import Flask
 from models import storage
