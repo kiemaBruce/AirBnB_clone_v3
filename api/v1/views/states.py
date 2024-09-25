@@ -31,6 +31,8 @@ def states(state_id=None):
         return jsonify({}), 200
     elif request.method == 'POST':
         # we have to create an entirely new object (e.g. auto-generated id)
+        if request.headers.get('Content-Type') != 'application/json':
+            abort(400, 'Not a JSON')
         data_dict = request.get_json()
         if data_dict is None:
             abort(400, 'Not a JSON')
@@ -42,6 +44,8 @@ def states(state_id=None):
     # elif request.method == 'PUT':
     if state_object is None:
         abort(404)
+    if request.headers.get('Content-Type') != 'application/json':
+        abort(400, 'Not a JSON')
     data_dict = request.get_json()
     if data_dict is None:
         abort(400, 'Not a JSON')
