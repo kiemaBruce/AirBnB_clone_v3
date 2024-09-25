@@ -25,6 +25,8 @@ def amenities(amenity_id=None):
         # Retrieve the specific amenity because it exists
         return jsonify(amenity_object.to_dict())
     elif request.method == 'DELETE':
+        if amenity_object is None:
+            abort(404)
         amenity_object.delete()
         storage.save()
         return jsonify({}), 200
