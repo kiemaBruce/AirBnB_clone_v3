@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 
 # Enable CORS for all routes and allow request from all origins(0.0.0.0)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 
 
 app.register_blueprint(app_views)
