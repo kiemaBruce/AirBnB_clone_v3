@@ -4,9 +4,14 @@
 
 from api.v1.views import app_views
 from flask import Flask, jsonify
+from flask_cors import CORS
 from models import storage
 
 app = Flask(__name__)
+
+
+# Enable CORS for all routes and allow request from all origins(0.0.0.0)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 app.register_blueprint(app_views)
